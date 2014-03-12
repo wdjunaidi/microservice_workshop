@@ -6,9 +6,16 @@ require_relative "rental_offer_need_packet"
 
 # Expresses a need for rental car offers
 class RentalOfferNeed
+  DEFAULT_OPTIONS = {
+    interval_in_seconds: 0,   # Interval to wait prior re-broadcasting need (0 = don't re-broadcast)
+    need_instance_id: 'Car rental offer'
+  }
 
-  def initialize(bus_name)
+  def initialize(bus_name, options = {})    # Options include :interval_in_seconds
+    options = DEFAULT_OPTIONS.merge options
     @bus_name = bus_name
+    @interval_in_seconds = options[:interval_in_seconds].to_i
+    @need_instance_id = options[:need_instance_id]
   end
 
   def start
@@ -18,20 +25,36 @@ class RentalOfferNeed
         vhost: @bus_name,
         automatically_recover: false)
     conn.start
-    publish_need(conn)
+    channel = conn.create_channel
+    exchange = channel.fanout("rapids", durable: true)
+    publish_needs(exchange)
+  rescue Interrupt => _
+    channel.close
+    puts "\n [*] Ceased expressing needs!"
   ensure
     conn.close if conn
+    exit(0)
   end
 
   private
 
-    def publish_need(connection)
-      channel = connection.create_channel
-      exchange = channel.fanout("rapids", durable: true)
-      exchange.publish(RentalOfferNeedPacket.new.to_json)
-      puts "Published a rental offer need on the #{@bus_name} bus"
+    def publish_needs(exchange)
+      puts " [*] Expressing need on the '#{@bus_name}' bus... To exit press CTRL+C" unless @interval_in_seconds == 0
+      while true
+        exchange.publish(RentalOfferNeedPacket.new(@need_instance_id).to_json)
+        puts " [x] Published a rental offer need on the #{@bus_name} bus"
+        break if @interval_in_seconds == 0
+        sleep @interval_in_seconds
+      end
     end
 
 end
 
-RentalOfferNeed.new('booboo').start
+options = {}
+bus_name = ARGV.shift
+[:interval_in_seconds, :need_instance_id].each do |var|  # Options in this order
+  break if ARGV.empty?
+  options[var] = ARGV.shift
+end
+puts options
+RentalOfferNeed.new(bus_name, options).start

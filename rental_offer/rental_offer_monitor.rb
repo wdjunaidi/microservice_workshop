@@ -34,7 +34,7 @@ class RentalOfferMonitor
       queue = channel.queue("", :exclusive => true)
       exchange = channel.fanout("rapids", durable: true)
       queue.bind exchange
-      puts " [*] Waiting for solutions on the #{@bus_name} bus... To exit press CTRL+C"
+      puts " [*] Waiting for solutions on the '#{@bus_name}' bus... To exit press CTRL+C"
       queue.subscribe(block: true) do |delivery_info, properties, body|
         process body
       end
@@ -43,7 +43,7 @@ class RentalOfferMonitor
     def process body
       content = JSON.parse body
       return unless content['need'] == RentalOfferNeedPacket::NEED
-      puts " [x] Need for #{content['need']} expressed. #{solutions_message(content)}"
+      puts " [x] Need for '#{content['need']}' expressed by '#{content['need_instance_id']}'. #{solutions_message(content)}"
     rescue JSON::ParserError => _
       # Ignore: "This is not the message we are looking for..."
     end
@@ -57,4 +57,4 @@ class RentalOfferMonitor
 
 end
 
-RentalOfferMonitor.new('booboo').start
+RentalOfferMonitor.new(ARGV.shift).start

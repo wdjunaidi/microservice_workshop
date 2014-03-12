@@ -4,14 +4,15 @@ require 'json'
 class RentalOfferNeedPacket
   NEED = 'car_rental_offer'
 
-  def initialize
-    @need = NEED
+  def initialize(need_instance_id = 'default')
+    @need, @need_instance_id = NEED, need_instance_id
     @solutions = {}
   end
 
   def to_json
     {
       'need' => @need,
+      'need_instance_id' => @need_instance_id,
       'solutions' => @solutions.to_json
     }.to_json
   end
