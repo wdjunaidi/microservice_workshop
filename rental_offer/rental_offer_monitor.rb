@@ -2,6 +2,8 @@
 # encoding: utf-8
 
 require "bunny"
+require "json"
+require_relative 'rental_offer_need_packet'
 
 # Streams rental-offer-related requests to the console
 class RentalOfferMonitor
@@ -32,14 +34,25 @@ class RentalOfferMonitor
       queue = channel.queue("", :exclusive => true)
       exchange = channel.fanout("rapids", durable: true)
       queue.bind exchange
-      puts " [*] Waiting for solution... To exit press CTRL+C"
+      puts " [*] Waiting for solutions on the #{@bus_name} bus... To exit press CTRL+C"
       queue.subscribe(block: true) do |delivery_info, properties, body|
         process body
       end
     end
 
     def process body
-      puts " [x] #{body}"
+      content = JSON.parse body
+      return unless content['need'] == RentalOfferNeedPacket::NEED
+      puts " [x] Need for #{content['need']} expressed. #{solutions_message(content)}"
+    rescue JSON::ParserError => _
+      # Ignore: "This is not the message we are looking for..."
+    end
+
+    def solutions_message(content)
+      return 'No solutions (yet!)' if content['solutions'].nil?
+      solutions = JSON.parse(content['solutions'])
+      return 'No solutions (yet!)' if solutions.empty?
+      "Proposing #{solutions.size} solutions."
     end
 
 end
