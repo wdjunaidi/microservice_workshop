@@ -1,11 +1,9 @@
-#!/usr/bin/env ruby
-# encoding: utf-8
-
 require "bunny"
 require_relative "rental_offer_need_packet"
 
 # Expresses a need for rental car offers
 class RentalOfferNeed
+  HOST = 'microserver.local'
   DEFAULT_OPTIONS = {
     interval_in_seconds: 0,   # Interval to wait prior re-broadcasting need (0 = don't re-broadcast)
     need_instance_id: 'Car rental offer'
@@ -23,6 +21,7 @@ class RentalOfferNeed
         user: @bus_name,
         password: @bus_name,
         vhost: @bus_name,
+        host: HOST,
         automatically_recover: false)
     conn.start
     channel = conn.create_channel
@@ -49,12 +48,3 @@ class RentalOfferNeed
     end
 
 end
-
-options = {}
-bus_name = ARGV.shift
-[:interval_in_seconds, :need_instance_id].each do |var|  # Options in this order
-  break if ARGV.empty?
-  options[var] = ARGV.shift
-end
-puts options
-RentalOfferNeed.new(bus_name, options).start

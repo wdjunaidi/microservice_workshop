@@ -7,6 +7,7 @@ require_relative 'rental_offer_need_packet'
 
 # Streams rental-offer-related requests to the console
 class RentalOfferMonitor
+  HOST = 'microserver.local'
 
   def initialize(bus_name)
     @bus_name = bus_name
@@ -17,6 +18,7 @@ class RentalOfferMonitor
         user: @bus_name,
         password: @bus_name,
         vhost: @bus_name,
+        host: HOST,
         automatically_recover: false)
     conn.start
     channel = conn.create_channel

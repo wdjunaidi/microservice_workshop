@@ -6,6 +6,7 @@ require_relative "rental_offer_need_packet"
 
 # Expresses a need for rental car offers
 class RentalOfferNeed
+  HOST = 'microserver.local'
 
   def initialize(bus_name)
     @bus_name = bus_name
@@ -16,20 +17,21 @@ class RentalOfferNeed
         user: @bus_name,
         password: @bus_name,
         vhost: @bus_name,
+        host: HOST,
         automatically_recover: false)
     conn.start
     channel = conn.create_channel
     exchange = channel.fanout("rapids", durable: true)
-    publish_needs(exchange)
+    publish_need(exchange)
   ensure
     conn.close if conn
-    exit(0)
+    # exit(0)
   end
 
   private
 
-    def publish_needs(exchange)
-      exchange.publish(RentalOfferNeedPacket.new.to_json)
+    def publish_need(exchange)
+      exchange.publish RentalOfferNeedPacket.new.to_json
       puts " [x] Published a rental offer need on the #{@bus_name} bus"
     end
 
