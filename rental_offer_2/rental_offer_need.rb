@@ -41,7 +41,7 @@ class RentalOfferNeed
       puts " [*] Expressing need on the '#{@bus_name}' bus... To exit press CTRL+C" unless @interval_in_seconds == 0
       while true
         exchange.publish(RentalOfferNeedPacket.new(@need_instance_id).to_json)
-        puts " [x] Published a rental offer need on the #{@bus_name} bus"
+        puts " [x] Published a rental offer need on the '#{@bus_name}' bus"
         break if @interval_in_seconds == 0
         sleep @interval_in_seconds
       end

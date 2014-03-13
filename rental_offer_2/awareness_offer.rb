@@ -45,15 +45,18 @@ class AwarenessOffer
       return unless content['need'] == RentalOfferNeedPacket::NEED
       packet = JSON.load body
       return unless packet.unsatisfied?
-      packet.propose_solution awareness_solution
+      awareness_solutions.each { |s| packet.propose_solution s}
       exchange.publish packet.to_json
     rescue JSON::ParserError => _
       # Ignore: "This is not the message we are looking for..."
     end
 
-    def awareness_solution
-      RentalOfferSolution.new(creative: 'awareness_1.jpg', value: 20, type: 'awareness')
-      puts " [x] Proposed solution with creative 'awareness_1'"
+    def awareness_solutions
+      puts " [x] Proposed solution with creative 'awareness_1' and 'join_renters_club_1'"
+      [
+        RentalOfferSolution.new(creative: 'awareness_1.jpg', value: 20, type: 'awareness'),
+        RentalOfferSolution.new(creative: 'join_renters_club_1.jpg', value: 40, type: 'join_renters_club')
+      ]
     end
 
 end
