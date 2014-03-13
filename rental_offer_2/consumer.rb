@@ -1,7 +1,7 @@
 require "bunny"
 require "json"
 require_relative 'rental_offer_need_packet'
-require_relative 'rental_offer_solution'
+require_relative 'rental_offer_solution_details'
 
 # Streams rental-offer-related requests to the console
 module Consumer

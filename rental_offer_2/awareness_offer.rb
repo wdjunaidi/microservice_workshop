@@ -3,7 +3,7 @@ require "json"
 
 require_relative 'consumer'
 require_relative 'rental_offer_need_packet'
-require_relative 'rental_offer_solution'
+require_relative 'rental_offer_solution_details'
 
 # Streams rental-offer-related requests to the console
 class AwarenessOffer
@@ -25,8 +25,8 @@ class AwarenessOffer
     def awareness_solutions
       puts " [x] Proposed solution with creative 'awareness_1' and 'join_renters_club_1'"
       [
-        RentalOfferSolution.new(creative: 'awareness_1.jpg', value: 20, type: 'awareness'),
-        RentalOfferSolution.new(creative: 'join_renters_club_1.jpg', value: 40, type: 'join_renters_club')
+        RentalOfferSolutionDetails.new(creative: 'awareness_1.jpg', value: 20, type: 'awareness'),
+        RentalOfferSolutionDetails.new(creative: 'join_renters_club_1.jpg', value: 40, type: 'join_renters_club')
       ]
     end
 

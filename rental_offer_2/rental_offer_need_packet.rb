@@ -4,7 +4,7 @@ require 'json'
 class RentalOfferNeedPacket
   NEED = 'car_rental_offer'
 
-  attr_reader :need
+  attr_reader :need, :solutions
 
   def initialize(need_instance_id = 'default', solutions = [])
     @need, @need_instance_id = NEED, need_instance_id

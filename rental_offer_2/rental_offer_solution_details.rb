@@ -1,7 +1,8 @@
 require 'json'
 
 # Understands a specific solution to a rental car offer need
-class RentalOfferSolution
+class RentalOfferSolutionDetails
+  attr_reader :traits
 
   def initialize(traits)
     @traits = traits
