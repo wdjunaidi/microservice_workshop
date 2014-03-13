@@ -4,21 +4,32 @@ require 'json'
 class RentalOfferNeedPacket
   NEED = 'car_rental_offer'
 
-  def initialize(need_instance_id = 'default')
+  attr_reader :need
+
+  def initialize(need_instance_id = 'default', solutions = [])
     @need, @need_instance_id = NEED, need_instance_id
-    @solutions = {}
+    @solutions = solutions
   end
 
-  def to_json
+  def to_json(*args)
     {
-      'need' => @need,
-      'need_instance_id' => @need_instance_id,
-      'solutions' => @solutions.to_json
+      json_class: self.class.name,
+      need: @need,
+      need_instance_id: @need_instance_id,
+      solutions: @solutions
     }.to_json
+  end
+
+  def self.json_create(json_hash)
+    new(json_hash['need_instance_id'], json_hash['solutions'])
   end
 
   def propose_solution solution
     @solutions << solution
+  end
+
+  def unsatisfied?
+    @solutions.empty?
   end
 
 end

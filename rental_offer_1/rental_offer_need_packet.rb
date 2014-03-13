@@ -9,8 +9,9 @@ class RentalOfferNeedPacket
     @solutions = {}
   end
 
-  def to_json
+  def to_json(*args)
     {
+      'json_class' => self.class.name,
       'need' => @need,
       'solutions' => @solutions.to_json
     }.to_json

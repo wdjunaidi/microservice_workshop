@@ -1,3 +1,5 @@
+require 'json'
+
 # Understands a specific solution to a rental car offer need
 class RentalOfferSolution
 
@@ -5,8 +7,15 @@ class RentalOfferSolution
     @traits = traits
   end
 
-  def to_json
-    @traits.to_json
+  def to_json(*args)
+    {
+      json_class: self.class.name,
+      traits: @traits
+    }.to_json
+  end
+
+  def self.json_create(json_hash)
+    new(json_hash['traits'])
   end
 
 end
