@@ -22,3 +22,4 @@ Mac Server Setup
     5672 for RabbitMQ
     15672 for Web manager access
 
+  Use the remote RabbitMQ console to the MacMini, and upload the configuration.
