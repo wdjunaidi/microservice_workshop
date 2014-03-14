@@ -22,7 +22,7 @@ class RentalOfferNeed
 
   private
 
-    def process(queue, exchange)
+    def process(ignore, exchange)
       puts " [*] Expressing need on the '#{@bus_name}' bus... To exit press CTRL+C" unless @interval_in_seconds == 0
       while true
         exchange.publish(RentalOfferNeedPacket.new(@need_instance_id).to_json)

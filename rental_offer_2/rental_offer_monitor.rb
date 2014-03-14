@@ -10,16 +10,16 @@ class RentalOfferMonitor
 
   private
 
-    def process(queue, exchange)
+    def process(channel, exchange)
       puts " [*] Waiting for needs on the '#{@bus_name}' bus... To exit press CTRL+C"
-      queue.subscribe(block: true) do |delivery_info, properties, body|
+      queue(channel, exchange).subscribe(block: true) do |delivery_info, properties, body|
         process_packet body, exchange
       end
     end
 
     def process_packet body, ignore
       content = JSON.parse body
-      return unless content['need'] == RentalOfferNeedPacket::NEED
+      return puts(" [x] Message: #{body}") unless content['need'] == RentalOfferNeedPacket::NEED
       puts " [x] Need for '#{content['need']}' expressed by '#{content['need_instance_id']}'. #{solutions_message(content)}"
     rescue JSON::ParserError => _
       # Ignore: "This is not the message we are looking for..."

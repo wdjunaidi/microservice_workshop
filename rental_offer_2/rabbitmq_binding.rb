@@ -1,5 +1,6 @@
 require "bunny"
 require "json"
+require_relative 'log_packet'
 require_relative 'rental_offer_need_packet'
 require_relative 'rental_offer_solution_details'
 
@@ -20,10 +21,9 @@ module RabbitmqBinding
         automatically_recover: false)
     conn.start
     channel = conn.create_channel
-    queue = channel.queue("", :exclusive => true)
     exchange = channel.fanout("rapids", durable: true)
-    queue.bind exchange
-    process(queue, exchange)
+    log_startup(exchange)
+    process(channel, exchange)
   rescue Interrupt => _
     channel.close
   ensure
@@ -33,11 +33,14 @@ module RabbitmqBinding
 
   private
 
-    def process(queue, exchange)
-      puts " [*] Waiting for needs on the '#{@bus_name}' bus... To exit press CTRL+C"
-      queue.subscribe(block: true) do |delivery_info, properties, body|
-        process body, exchange
-      end
+    def log_startup(exchange)
+      exchange.publish(LogPacket.new('info', " [*] Service #{self.class.name} is now operational.").to_json)
+    end
+
+    def queue(channel, exchange)
+      result = channel.queue("", :exclusive => true)
+      result.bind exchange
+      result
     end
 
 end

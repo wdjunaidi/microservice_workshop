@@ -11,9 +11,9 @@ class JoinLoyaltyOffer
 
   private
 
-    def process(queue, exchange)
+    def process(channel, exchange)
       puts " [*] Waiting for needs on the '#{@bus_name}' bus... To exit press CTRL+C"
-      queue.subscribe(block: true) do |delivery_info, properties, body|
+      queue(channel, exchange).subscribe(block: true) do |delivery_info, properties, body|
         process_packet body, exchange
       end
     end
