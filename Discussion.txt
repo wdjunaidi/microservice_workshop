@@ -6,7 +6,7 @@ OBSERVATIONS - After setting up to use RabbitMQ
 
 OBSERVATIONS - After
   Still coupled:
-
+    Message formats
 
   Uncoupled:
     Language for each service
