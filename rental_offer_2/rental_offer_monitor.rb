@@ -1,16 +1,23 @@
 require "bunny"
 require "json"
 
-require_relative 'consumer'
+require_relative 'rabbitmq_binding'
 require_relative 'rental_offer_need_packet'
 
 # Streams rental-offer-related requests to the console
 class RentalOfferMonitor
-  include Consumer
+  include RabbitmqBinding
 
   private
 
-    def process body, ignore
+    def process(queue, exchange)
+      puts " [*] Waiting for needs on the '#{@bus_name}' bus... To exit press CTRL+C"
+      queue.subscribe(block: true) do |delivery_info, properties, body|
+        process_packet body, exchange
+      end
+    end
+
+    def process_packet body, ignore
       content = JSON.parse body
       return unless content['need'] == RentalOfferNeedPacket::NEED
       puts " [x] Need for '#{content['need']}' expressed by '#{content['need_instance_id']}'. #{solutions_message(content)}"
