@@ -1,0 +1,12 @@
+OBSERVATIONS - After setting up to use RabbitMQ
+
+  Parameters are really important
+  Exactly correct or it doesn't work
+  Silent failure of RabbitMQ
+
+OBSERVATIONS - After
+  Still coupled:
+
+
+  Uncoupled:
+    Language for each service
