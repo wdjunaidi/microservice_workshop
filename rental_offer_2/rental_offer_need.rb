@@ -6,7 +6,7 @@ class RentalOfferNeed
   HOST = 'microserver.local'
   DEFAULT_OPTIONS = {
     interval_in_seconds: 0,   # Interval to wait prior re-broadcasting need (0 = don't re-broadcast)
-    need_instance_id: 'Car rental offer'
+    need_instance_id: 'unknown'
   }
 
   def initialize(bus_name, options = {})    # Options include :interval_in_seconds
