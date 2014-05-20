@@ -1,0 +1,11 @@
+GEM
+  specs:
+    amq-protocol (1.9.2)
+    bunny (1.2.1)
+      amq-protocol (>= 1.9.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bunny (= 1.2.1)
