@@ -15,10 +15,11 @@ class RentalOfferNeed
 
   def start
     conn = Bunny.new(
-        user: @bus_name,
-        password: @bus_name,
-        host: HOST,
-        automatically_recover: false)
+                     user: @bus_name,
+                     password: @bus_name,
+                     vhost: @bus_name,
+                     host: HOST,
+                     automatically_recover: false)
     conn.start
     channel = conn.create_channel
     exchange = channel.fanout("rapids", durable: true)
@@ -29,10 +30,10 @@ class RentalOfferNeed
 
   private
 
-    def publish_need(exchange)
-      exchange.publish RentalOfferNeedPacket.new.to_json
-      puts " [x] Published a rental offer need on the #{@bus_name} bus"
-    end
+  def publish_need(exchange)
+    exchange.publish RentalOfferNeedPacket.new.to_json
+    puts " [x] Published a rental offer need on the #{@bus_name} bus"
+  end
 
 end
 

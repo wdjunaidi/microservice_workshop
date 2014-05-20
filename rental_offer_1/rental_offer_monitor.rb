@@ -5,7 +5,7 @@ require "bunny"
 
 # Streams rental-offer-related requests to the console
 
-# Parameterize the host variable
+# TODO: Parameterize the host variable
 class RentalOfferMonitor
   # HOST = 'microserver.local'
   HOST = 'localhost'
@@ -20,8 +20,8 @@ class RentalOfferMonitor
       conn = Bunny.new(
                        user: @bus_name,
                        password: @bus_name,
+                       vhost: @bus_name,
                        host: HOST,
-#                       vhost: @bus_name,
                        automatically_recover: false)
       conn.start
       channel = conn.create_channel
