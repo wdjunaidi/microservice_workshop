@@ -6,7 +6,8 @@ require_relative "rental_offer_need_packet"
 
 # Expresses a need for rental car offers
 class RentalOfferNeed
-  HOST = 'microserver.local'
+  #HOST = 'microserver.local'
+  HOST = 'localhost'
 
   def initialize(bus_name)
     @bus_name = bus_name
@@ -16,7 +17,6 @@ class RentalOfferNeed
     conn = Bunny.new(
         user: @bus_name,
         password: @bus_name,
-        vhost: @bus_name,
         host: HOST,
         automatically_recover: false)
     conn.start
@@ -25,7 +25,6 @@ class RentalOfferNeed
     publish_need(exchange)
   ensure
     conn.close if conn
-    # exit(0)
   end
 
   private
