@@ -1,1 +1,4 @@
-Materials for MicroService Workshop at Booster 2014 in Bergen, Norway
+Materials for MicroService Workshop
+
+* Booster 2014 in Bergen, Norway
+* GOTO Chicago 2014
