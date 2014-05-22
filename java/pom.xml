@@ -2,11 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.getset</groupId>
-    <artifactId>pika</artifactId>
-    <version>1.4.0</version>
-    <url>http://www.getset.com</url>
-    <name>pika</name>
+    <groupId>com.microservices</groupId>
+    <artifactId>rentaloffer</artifactId>
+    <version>0.1.0</version>
+    <url>http://www.outpace.com</url>
+    <name>rentaloffer</name>
     <description>
     </description>
     <properties>
@@ -15,16 +15,16 @@
     <developers>
         <developer>
             <name>Bobby Norton</name>
-            <email>bobby@getset.com</email>
-            <url>http://www.getset.com</url>
+            <email>bobby@outpace.com</email>
+            <url>http://www.outpace.com</url>
         </developer>
     </developers>
-    <inceptionYear>2013</inceptionYear>
+    <inceptionYear>2014</inceptionYear>
     <dependencies>
         <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>13.0.1</version>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.2.2</version>
         </dependency>
         <dependency>
             <groupId>com.rabbitmq</groupId>
