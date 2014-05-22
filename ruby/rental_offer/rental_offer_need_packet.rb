@@ -5,19 +5,18 @@ class RentalOfferNeedPacket
   NEED = 'car_rental_offer'
 
   def initialize
-    @need = NEED
-    @solutions = {}
+    @solutions = []
   end
 
   def to_json(*args)
     {
       'json_class' => self.class.name,
-      'need' => @need,
+      'need' => NEED,
       'solutions' => @solutions.to_json
     }.to_json
   end
 
-  def propose_solution solution
+  def propose_solution(solution)
     @solutions << solution
   end
 
