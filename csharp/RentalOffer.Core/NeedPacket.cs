@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-using Newtonsoft.Json;
+using fastJSON;
 
 namespace RentalOffer.Core {
 
@@ -19,13 +19,13 @@ namespace RentalOffer.Core {
 
         public string ToJson() {
             // Clumsy, but this seems easier than dealing with
-            // Json.Net's idiosyncrasies to get snake-cased keys.
-            IDictionary<string, object> toJson = new Dictionary<string, object>();
-            toJson.Add("json_class", this.GetType().FullName);
-            toJson.Add("need", NEED);
-            toJson.Add("solutions", solutions);
+            // the JSON provider's idiosyncrasies to get snake-cased keys.
+            IDictionary<string, object> message = new Dictionary<string, object>();
+            message.Add("json_class", this.GetType().FullName);
+            message.Add("need", NEED);
+            message.Add("solutions", solutions);
 
-            return JsonConvert.SerializeObject(toJson);
+            return JSON.ToJSON(message);
         }
 
         public void ProposeSolution(Object solution) {

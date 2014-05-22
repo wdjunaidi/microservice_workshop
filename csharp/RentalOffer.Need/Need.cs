@@ -24,8 +24,8 @@ namespace RentalOffer.Need {
         }
 
         private void PublishNeed(Connection connection) {
-            //var message = new NeedPacket().ToJson();
-            var message = "punk";
+            string message = new NeedPacket().ToJson();
+
             connection.Publish(message);
             Console.WriteLine(" [x] Published {0} on the {1} bus", message, busName);
         }

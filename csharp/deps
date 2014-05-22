@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 deps=(
-./Lib/Json60r3/Bin/Net45/Newtonsoft.Json.dll
+./Lib/fastJSON.2.1.1.0/fastjson.dll
 ./Lib/rabbitmq-dotnet-client-3.3.1-dotnet-3.0/bin/RabbitMQ.Client.dll
 )
 
