@@ -12,7 +12,7 @@ class RentalOfferNeedPacket
     {
       'json_class' => self.class.name,
       'need' => NEED,
-      'solutions' => @solutions.to_json
+      'solutions' => @solutions
     }.to_json
   end
 
