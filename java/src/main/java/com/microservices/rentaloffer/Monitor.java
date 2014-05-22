@@ -23,7 +23,6 @@ public class Monitor {
         String host = args[0];
         String busName = args[1];
         String url = String.format("amqp://%s:%s@%s/%s", busName, busName, host, busName);
-        logger.info("Getting it going...");
         Monitor monitor = new Monitor(url);
         monitor.deliveryLoop();
     }
@@ -43,7 +42,7 @@ public class Monitor {
             final QueueingConsumer.Delivery delivery = delivery(consumer);
             if (delivery != null) {
                 try {
-                    logger.info(String.format("Message Received: %s", message(delivery)));
+                    logger.info(String.format(" [x] Received: %s", message(delivery)));
                     ack(channel, delivery);
                 } catch (Exception ex) {
                     nack(channel, delivery);
