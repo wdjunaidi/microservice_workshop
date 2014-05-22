@@ -14,8 +14,6 @@ namespace RentalOffer.Need {
             string host = args[0];
             string busName = args[1];
 
-            Console.WriteLine(args);
-            Console.WriteLine("Publishing the need...");
             new Connection(host, busName).WithOpen(new Need(busName).PublishNeed);
         }
 
@@ -25,7 +23,6 @@ namespace RentalOffer.Need {
 
         private void PublishNeed(Connection connection) {
             string message = new NeedPacket().ToJson();
-
             connection.Publish(message);
             Console.WriteLine(" [x] Published {0} on the {1} bus", message, busName);
         }
