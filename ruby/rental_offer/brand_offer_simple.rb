@@ -26,7 +26,7 @@ private
       puts " [x] Received #{body}"
       need = JSON.parse body
       if need['solutions'].size == 0
-        need['solutions'] << {:json_class => 'BrandOfferSimple', :offer => '5%-off', :value => rand(100) }
+        need['solutions'] << {:chance => rand(100), :name => '5%-off', :profit => rand(10000) }
         need_json = JSON.generate need
         puts " [>] Respond with #{need_json}"
         exchange.publish need_json

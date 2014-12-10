@@ -7,9 +7,11 @@ require_relative 'connection'
 # Expresses a need for rental car offers
 class RentalOfferNeed
 
-  def initialize(host, bus_name)
+  def initialize(host, bus_name, user, location)
     @host = host
     @bus_name = bus_name
+    @user_name = user
+    @location = location
   end
 
   def start
@@ -19,10 +21,11 @@ class RentalOfferNeed
   private
 
   def publish_need(channel, exchange)
-    exchange.publish RentalOfferNeedPacket.new.to_json
-    puts " [x] Published a rental offer need on the #{@bus_name} bus"
+    packet = @location ? RentalOfferNeedPacket.new(@user_name, @location) : RentalOfferNeedPacket.new(@user_name)
+    exchange.publish packet.to_json
+    puts " [x] Published a rental offer need from #{@user_name} on the #{@bus_name} bus"
   end
 
 end
 
-RentalOfferNeed.new(ARGV.shift, ARGV.shift).start
+RentalOfferNeed.new(ARGV.shift, ARGV.shift, ARGV.shift, ARGV.shift).start
