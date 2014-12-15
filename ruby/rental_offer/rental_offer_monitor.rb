@@ -6,21 +6,17 @@
 # To run monitor at prompt:
 #   ruby rental_car_monitor.rb 192.168.59.103 bugs
 
-require_relative 'connection'
+require_relative 'connectable'
 
 # Streams rental-offer-related requests to the console
 class RentalOfferMonitor
 
-  def initialize(host, bus_name)
-    @host = host
-    @bus_name = bus_name
-  end
-
-  def start
-    Connection.with_open(@host, @bus_name) {|ch, ex| monitor_solutions(ch, ex) }
-  end
-
+  include Connectable
 private
+
+  def connection_handler(channel, exchange)
+    monitor_solutions(channel, exchange)
+  end
 
   def monitor_solutions(channel, exchange)
     queue = channel.queue("", :exclusive => true)
@@ -33,4 +29,4 @@ private
 
 end
 
-RentalOfferMonitor.new(ARGV.shift, ARGV.shift).start
+RentalOfferMonitor.new().start(ARGV.shift, ARGV.shift)

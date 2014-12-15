@@ -7,21 +7,18 @@
 #   ruby rental_car_need.rb 192.168.59.103 bugs
 
 require_relative 'rental_offer_need_packet'
-require_relative 'connection'
+require_relative 'connectable'
 
 # Expresses a need for rental car offers
 class RentalOfferNeed
 
-  def initialize(host, bus_name)
-    @host = host
-    @bus_name = bus_name
-  end
-
-  def start
-    Connection.with_open(@host, @bus_name) {|ch, ex| publish_need(ch, ex)}
-  end
+  include Connectable
 
   private
+
+  def connection_handler(channel, exchange)
+    publish_need(channel, exchange)
+  end
 
   def publish_need(channel, exchange)
     exchange.publish RentalOfferNeedPacket.new.to_json
@@ -30,4 +27,4 @@ class RentalOfferNeed
 
 end
 
-RentalOfferNeed.new(ARGV.shift, ARGV.shift).start
+RentalOfferNeed.new().start(ARGV.shift, ARGV.shift)
