@@ -13,10 +13,9 @@
 (def qname "")
 
 (defn create-connection [host bus]
-  (let [conn (rmq/connect ;; {:uri (format "amqp://%s:%s@%s/%s" bus bus host bus)}
-                          )
-          ch    (lch/open conn)
-          q (.getQueue (lq/declare ch qname {:exclusive false :auto-delete false}))]
+  (let [conn (rmq/connect {:uri (format "amqp://%s:%s@%s/%s" bus bus host bus)})
+        ch   (lch/open conn)
+        q    (.getQueue (lq/declare ch qname {:exclusive false :auto-delete false}))]
       (le/declare ch "rapids" "fanout" {:durable true})
       (lq/bind ch q default-exchange-name)
       {:conn conn :ch ch}))
