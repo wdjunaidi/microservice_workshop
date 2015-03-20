@@ -1,14 +1,11 @@
 # microservies-workshop
 
-A Clojure library designed to ... well, that part is up to you.
+Run the Moniter
+```
+lein run -m microservices-workshop.moniter <host> <bus>
+```
 
-## Usage
-
-FIXME
-
-## License
-
-Copyright © 2015 FIXME
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+Publish a message
+```
+lein run -m microservices-workshop.need <host> <bus>
+```
