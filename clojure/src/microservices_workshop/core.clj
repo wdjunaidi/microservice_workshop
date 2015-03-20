@@ -27,3 +27,7 @@
 
 (defn subscribe [ch message-handler]
   (lc/blocking-subscribe ch qname message-handler {:auto-ack true}))
+
+(defn close [ch conn]
+  (rmq/close ch)
+  (rmq/close conn))

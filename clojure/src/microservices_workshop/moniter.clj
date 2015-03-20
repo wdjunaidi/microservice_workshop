@@ -1,12 +1,6 @@
 (ns microservices-workshop.moniter
   (:gen-class)
-  (:require [langohr.core      :as rmq]
-            [langohr.channel   :as lch]
-            [langohr.queue     :as lq]
-            [langohr.consumers :as lc]
-            [langohr.basic     :as lb]
-            [langohr.exchange  :as le]
-            [microservices-workshop.core :as core]))
+  (:require [microservices-workshop.core :as core]))
 
 (defn message-handler
   [ch {:keys [content-type delivery-tag] :as meta} ^bytes payload]
